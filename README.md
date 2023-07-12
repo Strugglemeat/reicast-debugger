@@ -18,3 +18,5 @@ todo:
 * ability to paste into breakpoint adder
 
 * restore spacebar speedup
+
+* breakpoint enable/disable
