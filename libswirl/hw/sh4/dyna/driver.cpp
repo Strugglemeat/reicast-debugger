@@ -103,24 +103,6 @@ u32 emit_FreeSpace()
 
 SmcCheckEnum DoCheck(u32 pc, u32 len)
 {
-
-	for(int i=0;i<numBreakpointsInUse;i++)
-	{
-		if(pc==breakpoints[i])
-			{
-				printf("[[[BREAKPOINT]]] hit %02d PC: %08X\n", i, breakpoints[i]);
-
-	            //verify(virtualDreamcast != nullptr);
-				//virtualDreamcast->Stop([] { });//stops execution of emulator. but we now need to go to menu
-
-				//g_GUI->OpenSettings(cb);
-				//g_GUI->OpenSettings([this] {});
-				//g_GUIRenderer->Stop();
-
-
-			}
-	}
-
 	// is on bios or such
 	if (!GetMemPtr(pc, len))
 	{
@@ -303,6 +285,24 @@ DynarecCodeEntryPtr rdv_CompilePC_OrFail(bool soft_resets)
     #endif
 
 	bm_printf("rdv_CompilePC: end %08X\n", next_pc);
+
+	//printf("driver.cpp - DynarecCodeEntryPtr. pc is %08X\n",pc);
+	for(int i=0;i<numBreakpointsInUse;i++)
+	{
+		if(pc==breakpoints[i])
+			{
+				printf("[[[BREAKPOINT]]] hit %02d PC: %08X\n", i, breakpoints[i]);
+
+	            //verify(virtualDreamcast != nullptr);
+				//virtualDreamcast->Stop([] { });//stops execution of emulator. but we now need to go to menu
+
+				//g_GUI->OpenSettings(cb);
+				//g_GUI->OpenSettings([this] {});
+				//g_GUIRenderer->Stop();
+//8C1847C2
+//8C0366DE
+			}
+	}
 
 	return rv->code;
 }

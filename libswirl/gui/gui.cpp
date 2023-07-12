@@ -126,21 +126,10 @@ static std::string current_library_path("/home/raph/RetroPie/roms/dreamcast/");
 #endif
 
 void reset_vmus()
-{
-    for (int i = 0; i < ARRAY_SIZE(vmu_lcd_status); i++)
-        vmu_lcd_status[i] = false;
-}
+{}
 
 void push_vmu_screen(int bus_id, int bus_port, u8* buffer)
-{
-    int vmu_id = bus_id * 2 + bus_port;
-    if (vmu_id < 0 || vmu_id >= ARRAY_SIZE(vmu_lcd_data))
-        return;
-    u32* p = &vmu_lcd_data[vmu_id][0];
-    for (int i = 0; i < ARRAY_SIZE(vmu_lcd_data[vmu_id]); i++, buffer++)
-        * p++ = *buffer != 0 ? 0xFFFFFFFFu : 0xFF000000u;
-    vmu_lcd_status[vmu_id] = true;
-}
+{}
 
 
 void ImGui_Impl_NewFrame()
@@ -173,20 +162,7 @@ void ImGui_Impl_NewFrame()
         io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
     else
         io.MousePos = ImVec2(real_x, real_y);
-#ifdef _ANDROID
-    // Put the "mouse" outside the screen one frame after a touch up
-    // This avoids buttons and the like to stay selected
-    if ((mo_buttons & 0xf) == 0xf)
-    {
-        if (touch_up)
-        {
-            io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
-            touch_up = false;
-        }
-        else if (io.MouseDown[0])
-            touch_up = true;
-    }
-#endif
+
     if (io.WantCaptureMouse)
     {
         io.MouseWheel = -mo_wheel_delta / 16;
@@ -403,8 +379,6 @@ struct ReicastUI_impl : GUI {
                 ImGui::TextColored(ImVec4(1, 1, 0, 0.7), "%s", message.c_str());
                 ImGui::End();
             }
-            //if (settings.rend.FloatVMUs)
-            //    render_vmus();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
