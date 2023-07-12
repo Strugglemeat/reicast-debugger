@@ -9,11 +9,11 @@ done:
 
 * display PC
 
+* display registers
+
 * when hitting a breakpoint, do the same as tab (go to menu)
 
 todo:
-
-* display registers
 
 * ability to paste into breakpoint adder
 

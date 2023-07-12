@@ -48,6 +48,7 @@
 #include "debugger/debugger.h"
 #include "hw/sh4/sh4_core.h"//for displaying PC
 
+
 int breakpoints[50];
 int numBreakpointsInUse;
 
@@ -922,7 +923,7 @@ void debugger_popup()
             {
                 //printf("dc is running - print the registers\n");
                 if(n==0)ImGui::Text("PC: %08X",next_pc-2);
-                else ImGui::Text("r%d:",n);
+                else ImGui::Text("r%d: %08X",n, r[n]);
             }
             else
             {
