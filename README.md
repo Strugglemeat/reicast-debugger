@@ -13,4 +13,6 @@ todo:
 
 * display PC & registers
 
-* ability to paste into BP adder
+* ability to paste into breakpoint adder
+
+* restore spacebar speedup

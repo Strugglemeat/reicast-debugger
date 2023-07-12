@@ -46,6 +46,7 @@
 #include "gui/gui_renderer.h"
 
 #include "debugger/debugger.h"
+#include "hw/sh4/sh4_core.h"
 
 int breakpoints[50];
 int numBreakpointsInUse;
@@ -402,8 +403,8 @@ struct ReicastUI_impl : GUI {
                 ImGui::TextColored(ImVec4(1, 1, 0, 0.7), "%s", message.c_str());
                 ImGui::End();
             }
-            if (settings.rend.FloatVMUs)
-                render_vmus();
+            //if (settings.rend.FloatVMUs)
+            //    render_vmus();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -507,9 +508,9 @@ struct ReicastUI_impl : GUI {
         if (!settings_opening)
             ImGui_ImplOpenGL3_DrawBackground();
 
-        if (!settings.rend.FloatVMUs)
+        //if (!settings.rend.FloatVMUs)
             // If floating VMUs, they are already visible on the background
-            render_vmus();
+        //    render_vmus();
 
         ImGui::SetNextWindowPos(ImVec2(screen_width / 2.f, screen_height / 2.f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
         ImGui::SetNextWindowSize(ImVec2(330 * scaling, 0));
@@ -882,6 +883,7 @@ struct ReicastUI_impl : GUI {
 
     void render_vmus()
     {
+        /*
         if (!game_started)
             return;
         ImGui::SetNextWindowBgAlpha(0);
@@ -922,6 +924,7 @@ struct ReicastUI_impl : GUI {
             ImGui::GetWindowDrawList()->AddImage(vmu_lcd_tex_ids[i], pos, pos_b, ImVec2(0, 1), ImVec2(1, 0), 0xC0ffffff);
         }
         ImGui::End();
+    */
     }
 
     void term_vmus()
@@ -959,6 +962,14 @@ int msgboxf(const wchar* text, unsigned int type, ...) {
 #endif
 
 //begin debugger UI stuff
+/*
+
+const char* ImGui::GetClipboardText()
+{
+    ImGuiContext& g = *GImGui;
+    return g.IO.GetClipboardTextFn ? g.IO.GetClipboardTextFn(g.IO.ClipboardUserData) : "";
+}
+*/
 
 void addBreakpoint(char* string)
 {
@@ -967,7 +978,7 @@ void addBreakpoint(char* string)
     if(address>=0x8c000000)
     {
         breakpoints[numBreakpointsInUse]=address;
-        printf("breakpoint %02d added: %08X\n", numBreakpointsInUse, address);   
+        printf("[[[BREAKPOINT]]] %02d added: %08X\n", numBreakpointsInUse, address);   
         numBreakpointsInUse++;
     }
 }
@@ -998,6 +1009,34 @@ void debugger_popup()
         ImGui::BeginChild("Scrolling");
         for (int n = 0; n <numBreakpointsInUse; n++)
             ImGui::Text("%02d: %08X", n, breakpoints[n]);
+        ImGui::EndChild();
+        ImGui::End();
+
+
+
+
+
+        //display PC + registers
+        ImGui::SetNextWindowSize(ImVec2(200 * scaling, 500 * scaling));
+        ImGui::SetNextWindowPos(ImVec2(screen_width-200, 10), ImGuiCond_Always, ImVec2(0.f, 1.f));
+        ImGui::Begin("CPU", NULL, ImGuiWindowFlags_AlwaysAutoResize);
+        ImGui::TextColored(ImVec4(1,1,0,1), "Registers");
+        ImGui::BeginChild("regs");
+        for (int n = 0; n <16; n++)
+        {
+            //if (virtualDreamcast)
+            if (virtualDreamcast && sh4_cpu->IsRunning())
+            {
+                //printf("dc is running - print the registers\n");
+                if(n==0)ImGui::Text("PC: %08X",next_pc-2);
+                else ImGui::Text("r%d:",n);
+            }
+            else
+            {
+                if(n==0)ImGui::Text("PC:");
+                else ImGui::Text("r%d:",n);
+            }
+        }
         ImGui::EndChild();
         ImGui::End();
 

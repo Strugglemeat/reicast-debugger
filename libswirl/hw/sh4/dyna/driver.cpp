@@ -26,6 +26,8 @@
 
 #include "../SuperH4_impl.h"
 #include "debugger/debugger.h"
+#include "libswirl.h"
+#include "gui/gui.h"
 
 #define bm_printf(...)
 
@@ -106,7 +108,16 @@ SmcCheckEnum DoCheck(u32 pc, u32 len)
 	{
 		if(pc==breakpoints[i])
 			{
-				printf("we hit a BP - BP %02d is addr %08X\n", i, breakpoints[i]);
+				printf("[[[BREAKPOINT]]] hit %02d PC: %08X\n", i, breakpoints[i]);
+
+	            //verify(virtualDreamcast != nullptr);
+				//virtualDreamcast->Stop([] { });//stops execution of emulator. but we now need to go to menu
+
+				//g_GUI->OpenSettings(cb);
+				//g_GUI->OpenSettings([this] {});
+				//g_GUIRenderer->Stop();
+
+
 			}
 	}
 
@@ -126,14 +137,6 @@ SmcCheckEnum DoCheck(u32 pc, u32 len)
 	else
 	{
 		//printf("SLOW CHECK %08X, %d\n", pc, len);	
-
-/*
-		if(pc==0x8C19808C)
-			{
-				sh4_int_bCpuRun = false;
-				printf("we hit a bp at %08X! stopping\n",pc);
-			}
-*/
 	}
 
 	// if no fault based discards, use whatever options

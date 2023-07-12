@@ -74,6 +74,7 @@ void SuperH4_impl::Run() {
 
 void SuperH4_impl::Stop()
 {
+    printf("SuperH4_impl.cpp - Stop()\n");
     verify(sh4_int_bCpuRun);
 
     sh4_int_bCpuRun = false;
@@ -81,10 +82,10 @@ void SuperH4_impl::Stop()
 
 void SuperH4_impl::Start()
 {
+    printf("SuperH4_impl.cpp - Start()\n");
     verify(!sh4_int_bCpuRun);
     
     sh4_int_bCpuRun = true;
-    printf("SuperH4_impl.cpp - Start()\n");
 }
 
 void SuperH4_impl::Step()
@@ -193,7 +194,7 @@ void SuperH4_impl::Term()
 
     sh4_backend.reset();
 
-    printf("Sh4 Term\n");
+    printf("SuperH4_impl.cpp - Sh4 Term\n");
 }
 
 void SuperH4_impl::ResetCache() {

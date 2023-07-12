@@ -893,6 +893,7 @@ struct Dreamcast_impl : VirtualDreamcast {
 
     bool Init()
     {
+        printf("libswirl.cpp - Init()\n");
         audio_stream.reset(AudioStream::Create());
         audio_stream->InitAudio();
 
@@ -986,6 +987,7 @@ struct Dreamcast_impl : VirtualDreamcast {
 
     void Term()
     {
+        printf("libswirl.cpp - Term()\n");
         sh4_cpu->Term();
         
 #if DC_PLATFORM != DC_PLATFORM_DREAMCAST
@@ -1009,6 +1011,7 @@ struct Dreamcast_impl : VirtualDreamcast {
 
     void Stop(function<void()> callback)
     {
+        printf("libswirl.cpp - Stop()\n");
         verify(sh4_cpu->IsRunning());
 
         callback_lock.Lock();
@@ -1021,12 +1024,14 @@ struct Dreamcast_impl : VirtualDreamcast {
     // Called on the emulator thread for soft reset
     void RequestReset()
     {
+        printf("libswirl.cpp - RequestReset()\n");
         reset_requested = true;
         sh4_cpu->Stop();
     }
 
     void Resume()
     {
+        printf("libswirl.cpp - Resume()\n");
         verify(!sh4_cpu->IsRunning());
         emu_thread.Start();
         emu_started.Wait();
