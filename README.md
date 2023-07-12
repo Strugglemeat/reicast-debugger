@@ -1,10 +1,6 @@
-Project EOL
-===========
-Hey there,
+# reicast-debugger
+addition of debugger to reicast emulator
 
-This project is no longer active.
+todo:
 
-Please, use another Dreamcast Emulator that is activelly developed :)
-
-Cheers,
-~skmp
+* figure out way to pause/restart SH4 (breakpoints)
