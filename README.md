@@ -7,11 +7,13 @@ done:
 
 * reading of breakpoints during execution and comparing to PC
 
+* display PC
+
 todo:
 
 * when hitting a breakpoint, do the same as tab (go to menu)
 
-* display PC & registers
+* display registers
 
 * ability to paste into breakpoint adder
 

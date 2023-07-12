@@ -46,7 +46,7 @@
 #include "gui/gui_renderer.h"
 
 #include "debugger/debugger.h"
-#include "hw/sh4/sh4_core.h"
+#include "hw/sh4/sh4_core.h"//for displaying PC
 
 int breakpoints[50];
 int numBreakpointsInUse;
@@ -793,19 +793,7 @@ struct ReicastUI_impl : GUI {
         ImGui::BeginChild(ImGui::GetID("library"), ImVec2(0, 0), true);
         {
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8 * scaling, 20 * scaling));		// from 8, 4
-/*
-            if (!settings.social.HideCallToAction)
-            {
-                ImGui::PushID("discord");
-                if (ImGui::Selectable("Join our Discord Server!"))
-                {
-                    os_LaunchFromURL("http://chat.reicast.com");
-                }
-                ImGui::PopID();
 
-                ImGui::Separator();
-            }
-*/
 #if DC_PLATFORM == DC_PLATFORM_DREAMCAST
             ImGui::PushID("nodisk");
             if (ImGui::Selectable("Dreamcast BIOS"))
@@ -831,23 +819,6 @@ struct ReicastUI_impl : GUI {
                     ImGui::PopID();
                 }
 
-/*
-            if (!settings.cloudroms.HideHomebrew)
-            {
-                ImGui::Text("%s", "");
-
-                gui_render_online_roms(false, "HOMEBREW", reicastCloudRoms.get());
-            }
-
-            if (settings.cloudroms.ShowArchiveOrg)
-            {
-                ImGui::Text("%s", "");
-                gui_render_online_roms(true, "ARCHIVE.ORG (CHD)", archiveChdCloudRoms.get());
-
-                ImGui::Text("%s", "");
-                gui_render_online_roms(true, "ARCHIVE.ORG (CUE / .7z)", archiveCueCloudRoms.get());
-            }
-*/
             ImGui::PopStyleVar();
         }
         ImGui::EndChild();
@@ -882,62 +853,10 @@ struct ReicastUI_impl : GUI {
     }
 
     void render_vmus()
-    {
-        /*
-        if (!game_started)
-            return;
-        ImGui::SetNextWindowBgAlpha(0);
-        ImGui::SetNextWindowPos(ImVec2(0, 0));
-        ImGui::SetNextWindowSize(ImVec2(screen_width, screen_height));
-
-        ImGui::Begin("vmu-window", NULL, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoInputs
-            | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoFocusOnAppearing);
-        for (int i = 0; i < 8; i++)
-        {
-            if (!vmu_lcd_status[i])
-                continue;
-
-            if (vmu_lcd_tex_ids[i] != (ImTextureID)0)
-                ImGui_ImplOpenGL3_DeleteVmuTexture(vmu_lcd_tex_ids[i]);
-            vmu_lcd_tex_ids[i] = ImGui_ImplOpenGL3_CreateVmuTexture(vmu_lcd_data[i]);
-
-            int x = vmu_coords[i][0];
-            int y = vmu_coords[i][1];
-            ImVec2 pos;
-            if (x == 0)
-                pos.x = VMU_PADDING;
-            else
-                pos.x = screen_width - VMU_WIDTH - VMU_PADDING;
-            if (y == 0)
-            {
-                pos.y = VMU_PADDING;
-                if (i & 1)
-                    pos.y += VMU_HEIGHT + VMU_PADDING;
-            }
-            else
-            {
-                pos.y = screen_height - VMU_HEIGHT - VMU_PADDING;
-                if (i & 1)
-                    pos.y -= VMU_HEIGHT + VMU_PADDING;
-            }
-            ImVec2 pos_b(pos.x + VMU_WIDTH, pos.y + VMU_HEIGHT);
-            ImGui::GetWindowDrawList()->AddImage(vmu_lcd_tex_ids[i], pos, pos_b, ImVec2(0, 1), ImVec2(1, 0), 0xC0ffffff);
-        }
-        ImGui::End();
-    */
-    }
+    {    }
 
     void term_vmus()
-    {
-        for (int i = 0; i < ARRAY_SIZE(vmu_lcd_status); i++)
-        {
-            if (vmu_lcd_tex_ids[i] != (ImTextureID)0)
-            {
-                ImGui_ImplOpenGL3_DeleteVmuTexture(vmu_lcd_tex_ids[i]);
-                vmu_lcd_tex_ids[i] = (ImTextureID)0;
-            }
-        }
-    }
+    {    }
 };
 
 GUI* GUI::Create() {
@@ -1024,8 +943,8 @@ void debugger_popup()
         ImGui::BeginChild("regs");
         for (int n = 0; n <16; n++)
         {
-            //if (virtualDreamcast)
-            if (virtualDreamcast && sh4_cpu->IsRunning())
+            if (virtualDreamcast) //can't be running because we're paused when in the menu
+            //if (virtualDreamcast && sh4_cpu->IsRunning())
             {
                 //printf("dc is running - print the registers\n");
                 if(n==0)ImGui::Text("PC: %08X",next_pc-2);
