@@ -286,7 +286,7 @@ DynarecCodeEntryPtr rdv_CompilePC_OrFail(bool soft_resets)
 
 	bm_printf("rdv_CompilePC: end %08X\n", next_pc);
 
-	//printf("driver.cpp - DynarecCodeEntryPtr. pc is %08X\n",pc);
+	//printf("driver.cpp - rdv_CompilePC_OrFail. PC:%08X\n",pc);
 	for(int i=0;i<numBreakpointsInUse;i++)
 	{
 		if(pc==breakpoints[i])
@@ -294,11 +294,8 @@ DynarecCodeEntryPtr rdv_CompilePC_OrFail(bool soft_resets)
 				printf("[[[BREAKPOINT]]] hit %02d PC: %08X\n", i, breakpoints[i]);
 
 	            //verify(virtualDreamcast != nullptr);
-				//virtualDreamcast->Stop([] { });//stops execution of emulator. but we now need to go to menu
-
-				//g_GUI->OpenSettings(cb);
-				//g_GUI->OpenSettings([this] {});
-				//g_GUIRenderer->Stop();
+				//virtualDreamcast->Stop([] { });//stops execution of emulator
+				g_GUI->OpenSettings([] {});
 //8C1847C2
 //8C0366DE
 			}
