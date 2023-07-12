@@ -10,3 +10,5 @@ done:
 todo:
 
 * figure out way to pause/restart SH4 (breakpoints)
+
+* display PC & registers
