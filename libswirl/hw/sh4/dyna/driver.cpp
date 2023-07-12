@@ -102,6 +102,14 @@ u32 emit_FreeSpace()
 SmcCheckEnum DoCheck(u32 pc, u32 len)
 {
 
+	for(int i=0;i<numBreakpointsInUse;i++)
+	{
+		if(pc==breakpoints[i])
+			{
+				printf("we hit a BP - BP %02d is addr %08X\n", i, breakpoints[i]);
+			}
+	}
+
 	// is on bios or such
 	if (!GetMemPtr(pc, len))
 	{
@@ -120,16 +128,12 @@ SmcCheckEnum DoCheck(u32 pc, u32 len)
 		//printf("SLOW CHECK %08X, %d\n", pc, len);	
 
 /*
-		if(pc=0x8C19808C)
+		if(pc==0x8C19808C)
 			{
 				sh4_int_bCpuRun = false;
 				printf("we hit a bp at %08X! stopping\n",pc);
 			}
 */
-		for(int i=0;i<numBreakpointsInUse;i++)
-		{
-			printf("BP %02d is addr %08X\n", i, breakpoints[i]);
-		}
 	}
 
 	// if no fault based discards, use whatever options

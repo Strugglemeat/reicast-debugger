@@ -9,6 +9,8 @@ done:
 
 todo:
 
-* figure out way to pause/restart SH4 (breakpoints)
+* when hitting a breakpoint, do the same as tab (go to menu)
 
 * display PC & registers
+
+* ability to paste into BP adder
